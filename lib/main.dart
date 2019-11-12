@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:martialme/locator.dart';
+import 'package:martialme/model/userLocation.dart';
 import 'package:martialme/pages/home_page.dart';
 import 'package:martialme/pages/login.dart';
+import 'package:martialme/provider/LocationService.dart';
 import 'package:martialme/provider/placesProvider.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:provider/provider.dart';
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(builder: (_) => locator<PlacesProvider>()),
+      StreamProvider<UserLocation>(builder: (context) => LocationService().locationStream)
     ],
           child: MaterialApp(
         debugShowCheckedModeBanner: false,

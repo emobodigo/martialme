@@ -13,6 +13,7 @@ class InformasiDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final placesProvider = Provider.of<PlacesProvider>(context);
+    var list = places.jadwal;
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       child: SafeArea(
@@ -31,10 +32,10 @@ class InformasiDetail extends StatelessWidget {
             children: <Widget>[
               Container(
                 height: MediaQuery.of(context).size.height,
-                color: Color(0xFFFE7050),
+                color: Color(0xFF21BFBD),
               ),
               Container(
-                height: MediaQuery.of(context).size.height,
+                height: MediaQuery.of(context).size.height - 95,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(35.0),
@@ -63,38 +64,42 @@ class InformasiDetail extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: <Widget>[
-                                Row(
+                            Expanded(
+                              child: Container(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Icon(
-                                      Icons.location_on,
-                                      size: 12.0,
-                                      color: Colors.grey,
+                                    Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.location_on,
+                                          size: 12.0,
+                                          color: Colors.grey,
+                                        ),
+                                        Text('${places.alamat}',
+                                            style: TextStyle(
+                                                fontFamily: 'Montserrat',
+                                                fontSize: 12.0,
+                                                color: Colors.grey))
+                                      ],
                                     ),
-                                    Text('${places.alamat}',
+                                    SizedBox(
+                                      height: 7.0,
+                                    ),
+                                    Text('${places.namaTempat}',
                                         style: TextStyle(
                                             fontFamily: 'Montserrat',
-                                            fontSize: 12.0,
-                                            color: Colors.grey))
+                                            fontSize: 24.0,
+                                            fontWeight: FontWeight.w600)),
                                   ],
                                 ),
-                                SizedBox(
-                                  height: 7.0,
-                                ),
-                                Text('${places.namaTempat}',
-                                    style: TextStyle(
-                                        fontFamily: 'Montserrat',
-                                        fontSize: 27.0,
-                                        fontWeight: FontWeight.w600)),
-                              ],
+                              ),
                             ),
                             Container(
                               height: 60.0,
                               width: 40.0,
                               decoration: BoxDecoration(
-                                  color: Colors.grey.withOpacity(0.1),
+                                  color: Colors.red.withOpacity(0.6),
                                   borderRadius: BorderRadius.circular(20.0)),
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.end,
@@ -159,7 +164,7 @@ class InformasiDetail extends StatelessWidget {
                       margin: const EdgeInsets.only(
                           top: 5, left: 10.0, right: 15.0),
                       width: MediaQuery.of(context).size.width - 20,
-                      height: MediaQuery.of(context).size.height - 515,
+                      height: MediaQuery.of(context).size.height - 530,
                       padding: EdgeInsets.only(top: 10, left: 10, right: 15),
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(30),
@@ -172,6 +177,16 @@ class InformasiDetail extends StatelessWidget {
                                   fontFamily: 'Montserrat',
                                   fontSize: 13.0,
                                   fontWeight: FontWeight.w600)),
+                          for (var item in list)
+                            Padding(
+                                padding: EdgeInsets.only(left: 15, top: 10),
+                                child: Text(
+                                  item,
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontSize: 13.0,
+                                      fontWeight: FontWeight.w400),
+                                ))
                         ],
                       ),
                     ),

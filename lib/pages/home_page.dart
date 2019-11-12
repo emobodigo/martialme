@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:martialme/model/userLocation.dart';
 import 'package:martialme/pages/bobot_slider.dart';
 import 'package:martialme/pages/informasi_tempat.dart';
 import 'package:martialme/provider/userProvider.dart';
@@ -15,6 +16,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
+    final location = Provider.of<UserLocation>(context);
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       //Define color provider
@@ -54,7 +56,11 @@ class HomePage extends StatelessWidget {
                   ),
                   buttonGo(context),
                   SizedBox(
-                    height: 130,
+                    height: 30,
+                  ),
+                  Text('Location: Lat ${location?.latitude}, Long: ${location?.longitude}'),
+                  SizedBox(
+                    height: 80,
                   ),
                   Text(
                     Info.app_version,
