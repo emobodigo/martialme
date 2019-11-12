@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "66428841040",
+    "firebase_url": "https://martialme-e8d73.firebaseio.com",
+    "project_id": "martialme-e8d73",
+    "storage_bucket": "martialme-e8d73.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66428841040:android:ac19afcad3dacc8a6ab555",
+        "android_client_info": {
+          "package_name": "com.example.martialme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66428841040-6poslvjoq7q6p2grnkls5df1en12rb71.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.martialme",
+            "certificate_hash": "acfe7ea411f5c739be22cc2a2f6e4921ae586464"
+          }
+        },
+        {
+          "client_id": "66428841040-7rochprojk9lotgjk68mm6m4j7li2g0q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDG_NYFGA2WG-EbcM_8NQO8DibL90EutIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66428841040-7rochprojk9lotgjk68mm6m4j7li2g0q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
