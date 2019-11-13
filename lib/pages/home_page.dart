@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:martialme/model/userLocation.dart';
 import 'package:martialme/pages/bobot_slider.dart';
+import 'package:martialme/pages/informasi_group.dart';
 import 'package:martialme/pages/informasi_tempat.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:martialme/utils/info.dart';
@@ -129,7 +130,11 @@ class HomePage extends StatelessWidget {
             iconData: FontAwesomeIcons.users,
             title: Info.group,
             color: Colors.blueAccent,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return InformasiGroup();
+              }));
+            },
           )
         ],
       );

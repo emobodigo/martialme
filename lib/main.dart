@@ -5,6 +5,7 @@ import 'package:martialme/model/userLocation.dart';
 import 'package:martialme/pages/home_page.dart';
 import 'package:martialme/pages/login.dart';
 import 'package:martialme/provider/LocationService.dart';
+import 'package:martialme/provider/groupProvider.dart';
 import 'package:martialme/provider/placesProvider.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(providers: [
       ChangeNotifierProvider(builder: (_) => locator<PlacesProvider>()),
+      ChangeNotifierProvider(builder: (_) => locator<GroupProvider>()),
       StreamProvider<UserLocation>(builder: (context) => LocationService().locationStream)
     ],
           child: MaterialApp(
