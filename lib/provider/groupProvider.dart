@@ -19,7 +19,7 @@ class GroupProvider with ChangeNotifier{
     return group;
   }
 
-  Future<Group> getPlacesById(String id) async {
+  Future<Group> getGroupById(String id) async {
     var doc = await _databaseGroup.getDocumentById(id);
     return Group.fromMap(doc.data, doc.documentID);
   }

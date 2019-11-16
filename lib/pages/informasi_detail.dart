@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:martialme/model/places.dart';
-import 'package:martialme/provider/placesProvider.dart';
 import 'package:martialme/utils/info.dart';
-import 'package:provider/provider.dart';
 
 class InformasiDetail extends StatelessWidget {
   final Places places;
@@ -12,7 +10,6 @@ class InformasiDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final placesProvider = Provider.of<PlacesProvider>(context);
     var list = places.jadwal;
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
