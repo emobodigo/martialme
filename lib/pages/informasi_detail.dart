@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:martialme/model/places.dart';
 import 'package:martialme/utils/info.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class InformasiDetail extends StatelessWidget {
   final Places places;
@@ -11,6 +12,16 @@ class InformasiDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var list = places.jadwal;
+
+    _launchURL() async {
+      var url = '${places.instagram}';
+      if(await canLaunch(url)){
+        await launch(url);
+      } else {
+        throw 'Could not launch $url';
+      }
+    }
+
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       child: SafeArea(
@@ -102,7 +113,9 @@ class InformasiDetail extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: <Widget>[
                                   IconButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _launchURL();
+                                      },
                                       icon: Icon(
                                         FontAwesomeIcons.instagram,
                                         color: Colors.black,

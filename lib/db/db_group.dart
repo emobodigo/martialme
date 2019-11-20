@@ -23,4 +23,16 @@ class DatabaseGroup {
   Future<DocumentSnapshot> getDocumentById(String id) {
     return ref.document(id).get();
   }
+
+  Future<DocumentReference> addGroup(Map data){
+    return ref.add(data);
+  }
+
+  Future<void> removeDocument(String id){
+    return ref.document(id).delete();
+  }
+
+  Future<void> updateDocument(Map data, String id){
+    return ref.document(id).updateData(data);
+  }
 }

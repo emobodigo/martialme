@@ -1,12 +1,18 @@
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:martialme/db/user.dart';
+import 'package:martialme/model/user_model.dart';
 
 enum Status{Unitialized, Authenticated, Authenticating, Unauthenticated}
 
 class UserProvider with ChangeNotifier{
   FirebaseAuth _auth;
   FirebaseUser _user;
+  List<UsersModel> users;
+  Firestore _firestore =Firestore.instance;
+  
 
   Status _status = Status.Unitialized;
   Status get status => _status;
@@ -66,4 +72,19 @@ class UserProvider with ChangeNotifier{
     }
     notifyListeners();
   }
+
+  Future<String> inputData() async {
+    final FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    final String uid = user.uid.toString();
+    return uid;
+  }
+
+  Future<DocumentSnapshot> getDocumentById(String id) {
+    return _firestore.collection('users').document(id).get();
+  }
+
+  
+
+
+  
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:martialme/model/group.dart';
+import 'package:martialme/pages/add_group.dart';
 import 'package:martialme/pages/group_detail.dart';
 import 'package:martialme/provider/groupProvider.dart';
 import 'package:martialme/utils/info.dart';
@@ -111,7 +112,11 @@ class InformasiGroup extends StatelessWidget {
             backgroundColor: Colors.lightBlue,
             elevation: 2.0,
             child: Icon(Icons.add),
-            onPressed: (){},
+            onPressed: (){
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return AddGroup();
+              }));
+            },
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         ),
@@ -122,11 +127,12 @@ class InformasiGroup extends StatelessWidget {
 
 class ListPlaceWidget extends StatelessWidget {
   final Group groupDetail;
-
+  
   const ListPlaceWidget({Key key, @required this.groupDetail}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final groupProvider = Provider.of<GroupProvider>(context);
     return Padding(
       padding: EdgeInsets.only(left: 10, right: 10, top: 10),
       child: InkWell(
@@ -179,8 +185,8 @@ class ListPlaceWidget extends StatelessWidget {
             IconButton(
               icon: Icon(Icons.delete),
               color: Colors.black,
-              onPressed: (){
-
+              onPressed: () async{
+                await groupProvider.removeGroup(groupDetail.id);
               },
             )
           ],

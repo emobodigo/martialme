@@ -1,8 +1,10 @@
+import 'package:flutter/material.dart';
+
 class Group{
   final String namaGroup, id;
   final List<Users> users;
 
-  Group({this.id, this.namaGroup, this.users});
+  Group({this.id, @required this.namaGroup, this.users});
 
   factory Group.fromMap(Map<dynamic, dynamic> data, String id){
     data = data ?? {};
@@ -14,6 +16,15 @@ class Group{
       users: usersL
     );
   }
+  toJson() {
+    return {
+      "nama_group": namaGroup,
+      "users": [{
+        // "userId" : userId,
+        // "name" : username
+      }],
+    };
+  }
 }
 
 class Users {
@@ -24,7 +35,7 @@ class Users {
   factory Users.fromMap(Map<dynamic, dynamic> data){
     return Users(
       userId: data['userId'],
-      username: data['username']
+      username: data['name']
     );
   }
 }

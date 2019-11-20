@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:martialme/model/group.dart';
+import 'package:martialme/pages/tambah_anggota.dart';
 import 'package:martialme/utils/info.dart';
 
 class GroupDetail extends StatelessWidget {
@@ -16,7 +17,7 @@ class GroupDetail extends StatelessWidget {
         top: false,
         bottom: false,
         child: Scaffold(
-           backgroundColor: Color(0xFF21BFBD),
+          backgroundColor: Color(0xFF21BFBD),
           appBar: AppBar(
             backgroundColor: Color(0xFF21BFBD),
             title: Text(
@@ -25,6 +26,15 @@ class GroupDetail extends StatelessWidget {
             ),
             centerTitle: true,
             actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.add),
+                color: Colors.white,
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                    return TambahAnggota(group: groupDetail,);
+                  }));
+                },
+              ),
               IconButton(
                 icon: Icon(Icons.pages),
                 color: Colors.white,
@@ -79,68 +89,75 @@ class GroupDetail extends StatelessWidget {
                         padding: EdgeInsets.only(top: 15),
                         child: Container(
                           height: MediaQuery.of(context).size.height - 190,
-                          child: ListView.builder(
-                            itemCount: groupList.length,
-                            itemBuilder: (context, i) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                    left: 10, right: 10, top: 10),
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: <Widget>[
-                                      Container(
+                          child: groupList == null
+                              ? Center(
+                                  child: Text('Belum ada Anggota, Tambahkan'),
+                                )
+                              : ListView.builder(
+                                  itemCount: groupList.length,
+                                  itemBuilder: (context, i) {
+                                    return Padding(
+                                      padding: EdgeInsets.only(
+                                          left: 10, right: 10, top: 10),
+                                      child: InkWell(
+                                        onTap: () {},
                                         child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: <Widget>[
                                             Container(
-                                              height: 75.0,
-                                              width: 75.0,
-                                              decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                      fit: BoxFit.cover,
-                                                      image: AssetImage(
-                                                          'assets/images/user.png'))),
-                                            ),
-                                            SizedBox(
-                                              width: 10.0,
-                                            ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          left: 15.0),
-                                                  child: Text(
-                                                    '${groupList[i].username}',
-                                                    style: TextStyle(
-                                                        fontFamily:
-                                                            'Montserrat',
-                                                        fontSize: 16.0,
-                                                        fontWeight:
-                                                            FontWeight.bold),
+                                              child: Row(
+                                                children: <Widget>[
+                                                  Container(
+                                                    height: 75.0,
+                                                    width: 75.0,
+                                                    decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: AssetImage(
+                                                                'assets/images/user.png'))),
                                                   ),
-                                                ),
-                                              ],
+                                                  SizedBox(
+                                                    width: 10.0,
+                                                  ),
+                                                  Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .only(
+                                                                left: 15.0),
+                                                        child: Text(
+                                                          '${groupList[i].username}',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'Montserrat',
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                            IconButton(
+                                              icon: Icon(Icons.delete),
+                                              color: Colors.black,
+                                              onPressed: () {},
                                             )
                                           ],
                                         ),
                                       ),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        color: Colors.black,
-                                        onPressed: () {},
-                                      )
-                                    ],
-                                  ),
+                                    );
+                                  },
                                 ),
-                              );
-                            },
-                          ),
                         ),
                       )
                     ],
@@ -152,5 +169,3 @@ class GroupDetail extends StatelessWidget {
     );
   }
 }
-
-
