@@ -1,41 +1,36 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class Group{
-  final String namaGroup, id;
-  final List<Users> users;
+  final String id, userId, username;
 
-  Group({this.id, @required this.namaGroup, this.users});
+  Group({this.id, this.userId, this.username});
 
-  factory Group.fromMap(Map<dynamic, dynamic> data, String id){
+  factory Group.fromMap(Map<String, dynamic> data, String id){
     data = data ?? {};
-   var list = data['users'] as List;
-   List<Users> usersL = list.map((i) => Users.fromMap(i)).toList();
     return Group(
       id: id,
-      namaGroup: data['nama_group'],
-      users: usersL
+      username: data['name'],
+      userId: data['userId']
     );
   }
   toJson() {
     return {
-      "nama_group": namaGroup,
-      "users": [{
-        // "userId" : userId,
-        // "name" : username
-      }],
+      "name": username,
+      "userId" : userId
     };
   }
 }
 
-class Users {
-  final String userId, username;
+// class Users {
+//   final String userId, username;
 
-  Users({this.userId, this.username});
+//   Users({this.userId, this.username});
 
-  factory Users.fromMap(Map<dynamic, dynamic> data){
-    return Users(
-      userId: data['userId'],
-      username: data['name']
-    );
-  }
-}
+//   factory Users.fromMap(Map<dynamic, dynamic> data){
+//     return Users(
+//       userId: data['userId'],
+//       username: data['name']
+//     );
+//   }
+// }

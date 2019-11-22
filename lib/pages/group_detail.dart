@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:martialme/model/group.dart';
+import 'package:martialme/model/groupuser.dart';
 import 'package:martialme/pages/tambah_anggota.dart';
+import 'package:martialme/utils/constant.dart';
 import 'package:martialme/utils/info.dart';
 
 class GroupDetail extends StatelessWidget {
-  final Group groupDetail;
+  final GroupUser groupDetail;
+  final String currentUserId;
+  List<Group> group;
 
-  const GroupDetail({Key key, @required this.groupDetail}) : super(key: key);
+  GroupDetail({Key key, @required this.groupDetail, this.currentUserId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    var groupList = groupDetail.users;
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       child: SafeArea(
@@ -30,7 +33,7 @@ class GroupDetail extends StatelessWidget {
                 icon: Icon(Icons.add),
                 color: Colors.white,
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return TambahAnggota(group: groupDetail,);
                   }));
                 },
@@ -89,75 +92,88 @@ class GroupDetail extends StatelessWidget {
                         padding: EdgeInsets.only(top: 15),
                         child: Container(
                           height: MediaQuery.of(context).size.height - 190,
-                          child: groupList == null
-                              ? Center(
-                                  child: Text('Belum ada Anggota, Tambahkan'),
-                                )
-                              : ListView.builder(
-                                  itemCount: groupList.length,
-                                  itemBuilder: (context, i) {
-                                    return Padding(
-                                      padding: EdgeInsets.only(
-                                          left: 10, right: 10, top: 10),
-                                      child: InkWell(
-                                        onTap: () {},
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: <Widget>[
-                                            Container(
-                                              child: Row(
-                                                children: <Widget>[
-                                                  Container(
-                                                    height: 75.0,
-                                                    width: 75.0,
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        image: DecorationImage(
-                                                            fit: BoxFit.cover,
-                                                            image: AssetImage(
-                                                                'assets/images/user.png'))),
-                                                  ),
-                                                  SizedBox(
-                                                    width: 10.0,
-                                                  ),
-                                                  Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .center,
-                                                    children: <Widget>[
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .only(
-                                                                left: 15.0),
-                                                        child: Text(
-                                                          '${groupList[i].username}',
-                                                          style: TextStyle(
-                                                              fontFamily:
-                                                                  'Montserrat',
-                                                              fontSize: 16.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold),
-                                                        ),
+                          child: FutureBuilder(
+                            future: groupRef
+                                .document(groupDetail.groupId)
+                                .collection('usersg')
+                                .getDocuments(),
+                            builder: (context, AsyncSnapshot snapshot) {
+                              if (!snapshot.hasData) {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              } else {
+                                group = snapshot.data.documents
+                                    .map<Group>((doc) =>
+                                        Group.fromMap(doc.data, doc.documentID))
+                                    .toList();
+                              
+                              return ListView.builder(
+                                itemCount: group.length,
+                                itemBuilder: (context, i) {
+                                  return Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 10, right: 10, top: 10),
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Container(
+                                            child: Row(
+                                              children: <Widget>[
+                                                Container(
+                                                  height: 75.0,
+                                                  width: 75.0,
+                                                  decoration: BoxDecoration(
+                                                      shape: BoxShape.circle,
+                                                      image: DecorationImage(
+                                                          fit: BoxFit.cover,
+                                                          image: AssetImage(
+                                                              'assets/images/user.png'))),
+                                                ),
+                                                SizedBox(
+                                                  width: 10.0,
+                                                ),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                              left: 15.0),
+                                                      child: Text(
+                                                        '${group[i].username}',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'Montserrat',
+                                                            fontSize: 16.0,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
                                                       ),
-                                                    ],
-                                                  )
-                                                ],
-                                              ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
                                             ),
-                                            IconButton(
-                                              icon: Icon(Icons.delete),
-                                              color: Colors.black,
-                                              onPressed: () {},
-                                            )
-                                          ],
-                                        ),
+                                          ),
+                                          IconButton(
+                                            icon: Icon(Icons.delete),
+                                            color: Colors.black,
+                                            onPressed: () {},
+                                          )
+                                        ],
                                       ),
-                                    );
-                                  },
-                                ),
+                                    ),
+                                  );
+                                },
+                              );
+                              }
+                            },
+                          ),
                         ),
                       )
                     ],

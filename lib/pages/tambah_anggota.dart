@@ -1,14 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:martialme/db/user.dart';
-import 'package:martialme/model/group.dart';
+import 'package:martialme/model/groupuser.dart';
 import 'package:martialme/model/user_model.dart';
 import 'package:martialme/provider/groupProvider.dart';
 import 'package:provider/provider.dart';
 
 class TambahAnggota extends StatefulWidget {
 
-final Group group;
+final GroupUser group;
 
   const TambahAnggota({Key key, @required this.group}) : super(key: key);
 

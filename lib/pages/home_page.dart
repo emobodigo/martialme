@@ -11,8 +11,9 @@ import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   final FirebaseUser user;
-
-  const HomePage({Key key, this.user}) : super(key: key);
+  
+  final String currentUserid;
+  const HomePage({Key key, this.user, this.currentUserid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +133,7 @@ class HomePage extends StatelessWidget {
             color: Colors.blueAccent,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return InformasiGroup();
+                return InformasiGroup(currentUserid: currentUserid,);
               }));
             },
           )

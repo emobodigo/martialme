@@ -1,10 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseGroup {
   final Firestore _db = Firestore.instance;
-  final FirebaseStorage storage =
-      FirebaseStorage(storageBucket: 'gs://martialme-e8d73.appspot.com/');
   final String path;
   CollectionReference ref;
 
@@ -20,12 +17,22 @@ class DatabaseGroup {
     return ref.snapshots();
   }
 
+  Stream<QuerySnapshot> streamDataWhere(String cond){
+    
+    return ref.where('users', arrayContains: {'userId': cond}).snapshots();
+  }
+
+  Future<QuerySnapshot> getGroup(String cond){
+    Future<QuerySnapshot> users = ref.where('users.userId', arrayContains: cond).getDocuments();
+    return users;
+  }
+
   Future<DocumentSnapshot> getDocumentById(String id) {
     return ref.document(id).get();
   }
 
   Future<DocumentReference> addGroup(Map data){
-    return ref.add(data);
+    return ref.document().collection('usersg').add(data);
   }
 
   Future<void> removeDocument(String id){

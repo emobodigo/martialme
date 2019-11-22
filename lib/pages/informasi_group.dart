@@ -1,18 +1,21 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
-import 'package:martialme/model/group.dart';
+import 'package:martialme/model/groupuser.dart';
 import 'package:martialme/pages/add_group.dart';
 import 'package:martialme/pages/group_detail.dart';
 import 'package:martialme/provider/groupProvider.dart';
+import 'package:martialme/utils/constant.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
 
 class InformasiGroup extends StatelessWidget {
-  List<Group> group;
+  List<GroupUser> group;
+  final String currentUserid;
+
+  InformasiGroup({Key key, this.currentUserid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final groupProvider = Provider.of<GroupProvider>(context);
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       child: SafeArea(
@@ -82,22 +85,22 @@ class InformasiGroup extends StatelessWidget {
                       padding: EdgeInsets.only(top: 15),
                       child: Container(
                         height: MediaQuery.of(context).size.height - 190,
-                        child: StreamBuilder(
-                            stream: groupProvider.fetchProductAsStream(),
+                        child: FutureBuilder(
+                            future: groupUserRef.document(currentUserid).collection('groups').getDocuments(),
                             builder: (context,
-                                AsyncSnapshot<QuerySnapshot> snapshot) {
+                                AsyncSnapshot snapshot) {
                               if (!snapshot.hasData) {
                                 return Text("Loading");
                               } else {
                                 group = snapshot.data.documents
-                                    .map((doc) => Group.fromMap(
+                                    .map<GroupUser>((doc) => GroupUser.fromMap(
                                         doc.data, doc.documentID))
                                     .toList();
                                 return ListView.builder(
                                     itemCount: group.length,
                                     itemBuilder: (buildContext, index) =>
                                         ListPlaceWidget(
-                                            groupDetail: group[index]));
+                                            groupDetail: group[index], currentUserId: currentUserid));
                               }
                             }),
                       ),
@@ -114,7 +117,7 @@ class InformasiGroup extends StatelessWidget {
             child: Icon(Icons.add),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return AddGroup();
+                return AddGroup(currentUserId: currentUserid);
               }));
             },
           ),
@@ -126,9 +129,9 @@ class InformasiGroup extends StatelessWidget {
 }
 
 class ListPlaceWidget extends StatelessWidget {
-  final Group groupDetail;
-  
-  const ListPlaceWidget({Key key, @required this.groupDetail}) : super(key: key);
+  final GroupUser groupDetail;
+  final String currentUserId;
+  const ListPlaceWidget({Key key, @required this.groupDetail, this.currentUserId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -138,7 +141,7 @@ class ListPlaceWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
            Navigator.push(context, MaterialPageRoute(builder: (context) {
-             return GroupDetail(groupDetail: groupDetail);
+             return GroupDetail(groupDetail: groupDetail, currentUserId: currentUserId);
            }));
         },
         child: Row(
@@ -170,7 +173,7 @@ class ListPlaceWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: Text(
-                          '${groupDetail.namaGroup}',
+                          '${groupDetail.namagroup}',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 16.0,

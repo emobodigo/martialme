@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   );
                 case Status.Authenticated:
-                return HomePage(user: user.user,);
+                return HomePage(user: user.user, currentUserid: user.user.uid);
               }
             },
            

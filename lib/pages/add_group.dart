@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:martialme/model/group.dart';
+import 'package:martialme/model/groupuser.dart';
+import 'package:martialme/model/user_model.dart';
 import 'package:martialme/provider/groupProvider.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
 
 class AddGroup extends StatefulWidget {
-  
+  final String currentUserId;
 
+  const AddGroup({Key key, this.currentUserId}) : super(key: key);
   @override
   _AddGroupState createState() => _AddGroupState();
 }
@@ -19,7 +22,7 @@ class _AddGroupState extends State<AddGroup> {
   String namaGroup;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     _namaGroup = TextEditingController(text: '');
   }
@@ -76,48 +79,65 @@ class _AddGroupState extends State<AddGroup> {
               SizedBox(
                 height: 35,
               ),
-              Container(
-                  height: MediaQuery.of(context).size.height - 170,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius:
-                          BorderRadius.only(topLeft: Radius.circular(75))),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: <Widget>[
-                        TextFormField(
-                          controller: _namaGroup,
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Nama Group',
-                            fillColor: Colors.grey[300],
-                            filled: true
+              FutureBuilder(
+                future: userProvider.getDocumentById(widget.currentUserId),
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else {
+                    UsersModel usersModel = UsersModel.fromDoc(snapshot.data);
+
+                    return Container(
+                        height: MediaQuery.of(context).size.height - 170,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(75))),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            children: <Widget>[
+                              TextFormField(
+                                controller: _namaGroup,
+                                decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: 'Nama Group',
+                                    fillColor: Colors.grey[300],
+                                    filled: true),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Masukkan nama group';
+                                  }
+                                },
+                                onSaved: (value) => namaGroup = value,
+                              ),
+                              RaisedButton(
+                                splashColor: Colors.red,
+                                onPressed: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    _formKey.currentState.save();
+                                    await groupProvider.addGrouptoUserGroup(
+                                        GroupUser(
+                                          namagroup: namaGroup,
+                                        ),
+                                        Group(
+                                            username: usersModel.name,
+                                            userId: usersModel.userId),
+                                        widget.currentUserId);
+                                    Navigator.pop(context);
+                                  }
+                                },
+                                child: Text('Tambah Group',
+                                    style: TextStyle(color: Colors.white)),
+                                color: Colors.lightBlue,
+                              )
+                            ],
                           ),
-                          validator: (value){
-                            if(value.isEmpty){
-                              return 'Masukkan nama group';
-                            }
-                          },
-                          onSaved: (value) => namaGroup = value,
-                        ),
-                        RaisedButton(
-                          splashColor: Colors.red,
-                          onPressed: () async{
-                            var temp = await userProvider.inputData();
-                            
-                            if(_formKey.currentState.validate()){
-                              _formKey.currentState.save();
-                              await groupProvider.addGroup(Group(namaGroup: namaGroup),);
-                              Navigator.pop(context);
-                            }
-                          },
-                          child: Text('Tambah Group', style: TextStyle(color: Colors.white)),
-                          color: Colors.lightBlue,
-                        )
-                      ],
-                    ),
-                  )
+                        ));
+                  }
+                },
               )
             ],
           ),
