@@ -22,6 +22,15 @@ class UserServices{
     return users;
   }
 
+   static Future<QuerySnapshot> searchUserTry(String name, String id) {
+    var users = _firestore.collection(collection);
+    users = users.where('userId', isLessThan: id );
+    users = users.where('userId', isLessThanOrEqualTo: id );
+    users = users.where('name', isGreaterThanOrEqualTo: name);
+    Future<QuerySnapshot> userss = users.getDocuments();
+    return userss;
+  }
+
   Future<DocumentSnapshot> getDocumentById(String id) {
     Future<DocumentSnapshot> data = _firestore.collection(collection).document(id).get();
     return data;

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GroupUser {
   final String id, groupId, namagroup;

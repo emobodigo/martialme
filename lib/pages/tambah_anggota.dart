@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:martialme/db/user.dart';
+import 'package:martialme/model/group.dart';
 import 'package:martialme/model/groupuser.dart';
 import 'package:martialme/model/user_model.dart';
 import 'package:martialme/provider/groupProvider.dart';
 import 'package:provider/provider.dart';
 
 class TambahAnggota extends StatefulWidget {
+  final GroupUser group;
+  final String currentUserId;
 
-final GroupUser group;
-
-  const TambahAnggota({Key key, @required this.group}) : super(key: key);
+  const TambahAnggota({Key key, @required this.group, this.currentUserId}) : super(key: key);
 
   @override
   _TambahAnggotaState createState() => _TambahAnggotaState();
@@ -21,7 +22,6 @@ class _TambahAnggotaState extends State<TambahAnggota> {
   Future<QuerySnapshot> _users;
   @override
   Widget build(BuildContext context) {
-    
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
@@ -43,7 +43,7 @@ class _TambahAnggotaState extends State<TambahAnggota> {
                 ),
                 filled: true),
             onSubmitted: (input) {
-              if(input.isNotEmpty){
+              if (input.isNotEmpty) {
                 setState(() {
                   _users = UserServices.searchUser(input);
                 });
@@ -80,21 +80,50 @@ class _TambahAnggotaState extends State<TambahAnggota> {
 
   _buildUserTile(UsersModel user) {
     final groupProvider = Provider.of<GroupProvider>(context);
-    return ListTile(
-      leading: CircleAvatar(
-        radius: 20.0,
-        backgroundImage: AssetImage('assets/images/userIcon.png'),
+    return user.userId == widget.currentUserId ? Visibility(
+          child: ListTile(
+        leading: CircleAvatar(
+          radius: 20.0,
+          backgroundImage: AssetImage('assets/images/userIcon.png'),
+        ),
+        title: Text(user.name),
+        trailing: Icon(Icons.add),
+        onTap: () async {
+          await groupProvider.addUserToGroup(
+              GroupUser(
+                  groupId: widget.group.groupId,
+                  namagroup: widget.group.namagroup),
+              Group(userId: user.userId, username: user.name),
+              user.userId,
+              widget.group.groupId);
+        },
       ),
-      title: Text(user.name),
-      trailing: Icon(Icons.add),
-      onTap: () async {
-     await groupProvider.updateGroup(user.userId, widget.group.id, user.name);
-      },
-    );
+      visible: false,
+    ) : Visibility(
+          child: ListTile(
+        leading: CircleAvatar(
+          radius: 20.0,
+          backgroundImage: AssetImage('assets/images/userIcon.png'),
+        ),
+        title: Text(user.name),
+        trailing: Icon(Icons.add),
+        onTap: () async {
+          await groupProvider.addUserToGroup(
+              GroupUser(
+                  groupId: widget.group.groupId,
+                  namagroup: widget.group.namagroup),
+              Group(userId: user.userId, username: user.name),
+              user.userId,
+              widget.group.groupId);
+        },
+      ),
+      visible: true,
+    ) ;
   }
 
   _clearSearch() {
-    WidgetsBinding.instance.addPostFrameCallback((_) => _searchController.clear());
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _searchController.clear());
     setState(() {
       _users = null;
     });

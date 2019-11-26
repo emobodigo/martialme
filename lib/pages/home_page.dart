@@ -19,6 +19,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
     final location = Provider.of<UserLocation>(context);
+    final double latitude = location.latitude;
+    final double longitude = location.longitude;
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       //Define color provider
@@ -56,7 +58,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 50,
                   ),
-                  buttonGo(context),
+                  buttonGo(context, latitude, longitude),
                   SizedBox(
                     height: 30,
                   ),
@@ -80,7 +82,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  List<Widget> text(context) => [
+  List<Widget> text(context) =>  [
         Text(
           Info.welcomeText,
           style: Theme.of(context)
@@ -102,7 +104,7 @@ class HomePage extends StatelessWidget {
         ),
       ];
 
-  Widget buttonGo(context) => Wrap(
+  Widget buttonGo(context, latitude, longitude)  =>  Wrap(
         alignment: WrapAlignment.center,
         spacing: 20.0,
         runSpacing: 20.0,
@@ -113,7 +115,7 @@ class HomePage extends StatelessWidget {
             color: Colors.green,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return BobotSlider();
+                return BobotSlider(latitude: latitude, longitude: longitude, currentUserId: currentUserid,);
               }));
             },
           ),

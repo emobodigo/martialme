@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:martialme/model/group.dart';
 import 'package:martialme/model/groupuser.dart';
 import 'package:martialme/pages/tambah_anggota.dart';
+import 'package:martialme/provider/groupProvider.dart';
 import 'package:martialme/utils/constant.dart';
 import 'package:martialme/utils/info.dart';
+import 'package:provider/provider.dart';
 
 class GroupDetail extends StatelessWidget {
   final GroupUser groupDetail;
@@ -14,6 +16,7 @@ class GroupDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final groupProvider = Provider.of<GroupProvider>(context);
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       child: SafeArea(
@@ -34,7 +37,7 @@ class GroupDetail extends StatelessWidget {
                 color: Colors.white,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return TambahAnggota(group: groupDetail,);
+                    return TambahAnggota(group: groupDetail, currentUserId: currentUserId,);
                   }));
                 },
               ),
@@ -163,7 +166,9 @@ class GroupDetail extends StatelessWidget {
                                           IconButton(
                                             icon: Icon(Icons.delete),
                                             color: Colors.black,
-                                            onPressed: () {},
+                                            onPressed: () async {
+                                              await groupProvider.removeUserFromGroup(group[i].id, groupDetail.groupId);
+                                            },
                                           )
                                         ],
                                       ),

@@ -26,7 +26,9 @@ class GroupProvider with ChangeNotifier{
   Future<List<Group>> fetchPlaces() async{
     var hasil = await _databaseGroup.getDataCollection();
     group = hasil.documents.map((doc) => Group.fromMap(doc.data, doc.documentID)).toList();
+    print(group);
     return group;
+
   }
 
   Future<List<Group>> fetchGroupUser(String id) async{
@@ -51,10 +53,6 @@ class GroupProvider with ChangeNotifier{
     return ;
   }
 
-  Future addGroup(Group data) async{
-    var result = await _databaseGroup.addGroup(data.toJson());
-    return;
-  }
 
   Future<QuerySnapshot> getGroup() async {
      final FirebaseUser user = await FirebaseAuth.instance.currentUser();
@@ -64,8 +62,23 @@ class GroupProvider with ChangeNotifier{
   }
 
 
-  Future removeGroup(String id) async{
-    await _databaseGroup.removeDocument(id);
+  Future removeGroup(String id, String userID) async{
+    var batch = _firestore.batch();
+    var removegroup = _firestore.collection('group').document(id);
+    var removeGroupUser = _firestore.collection('groupuser').document(userID).collection('groups').document(id);
+    batch.delete(removegroup);
+    batch.delete(removeGroupUser);
+    await batch.commit();
+    return;
+  }
+
+  Future removeUserFromGroup(String id, String groupId) async {
+    var batch = _firestore.batch();
+    var removeUser = _firestore.collection('group').document(groupId).collection('usersg').document(id);
+    var removeGroupUser = _firestore.collection('groupuser').document(id).collection('groups').document(groupId);
+    batch.delete(removeUser);
+    batch.delete(removeGroupUser);
+    await batch.commit();
     return;
   }
 
@@ -78,5 +91,13 @@ class GroupProvider with ChangeNotifier{
     };
     await groupRef.updateData({"users" : FieldValue.arrayUnion([mapData])});
     return;
+  }
+
+  Future<void> addUserToGroup(GroupUser data, Group data2,String id, String groupId) async{
+    var batch = _firestore.batch();
+    var cond1 = _firestore.collection('group').document(groupId).collection('usersg').document(id);
+    var cond2 = _firestore.collection('groupuser').document(id).collection('groups').document(groupId);
+    batch.setData(cond1, data.toJson(groupId));
+    batch.setData(cond2, data2.toJson());
   }
 }

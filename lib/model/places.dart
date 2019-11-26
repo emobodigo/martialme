@@ -1,5 +1,5 @@
 class Places {
-  final String alamat,
+   final String alamat,
       id,
       deskripsi,
       gambar,
@@ -11,6 +11,9 @@ class Places {
       latitude,
       longitude,
       namaTempat;
+   double normalisasiHarga, normalisasiJarak, normalisasiWaktu;
+   double siPlus, siMin;
+   double hasilTopsis, jarak, hasilBorda;
   final List<String> jadwal;
 
   Places(
@@ -26,7 +29,13 @@ class Places {
       this.latitude,
       this.longitude,
       this.namaTempat,
-      this.jadwal});
+      this.jadwal,
+      this.normalisasiHarga,
+      this.normalisasiJarak,
+      this.normalisasiWaktu,
+      this.siMin,
+      this.siPlus,
+      this.hasilTopsis, this.jarak, this.hasilBorda});
 
   factory Places.fromMap(Map<String, dynamic> data, String id) {
     data = data ?? {};
@@ -45,12 +54,11 @@ class Places {
       latitude: data['latitude'],
       longitude: data['longitude'],
       namaTempat: data['nama_tempat'],
+      // normalisasiHarga: data['normalisasiHarga'],
       jadwal: jadwalList,
     );
+   
   }
-
-
-
   // Places.fromMap(Map snapshot) :
   //   jadwal = snapshot['jadwal'],
   //   deskripsi = snapshot['deskripsi'],

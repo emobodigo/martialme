@@ -189,7 +189,7 @@ class ListPlaceWidget extends StatelessWidget {
               icon: Icon(Icons.delete),
               color: Colors.black,
               onPressed: () async{
-                await groupProvider.removeGroup(groupDetail.id);
+                await groupProvider.removeGroup(groupDetail.id, currentUserId);
               },
             )
           ],
