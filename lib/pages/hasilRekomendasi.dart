@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:martialme/model/places.dart';
+import 'package:martialme/pages/hasilRekomendasiDetail.dart';
 import 'package:martialme/provider/placesProvider.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +11,7 @@ class HasilRekomendasi extends StatelessWidget {
   final String selectedGroup;
   final String userId;
 
-  const HasilRekomendasi(
+  HasilRekomendasi(
       {Key key,
       this.longitude,
       this.latitude,
@@ -112,7 +114,17 @@ class HasilRekomendasi extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       left: 10, right: 10, top: 10),
                                   child: InkWell(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) {
+                                        return HasilRekomendasiDetail(
+                                          places:
+                                              placesProvider.places[index].id,
+                                          latitude: latitude,
+                                          longitude: longitude,
+                                        );
+                                      }));
+                                    },
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,

@@ -67,19 +67,18 @@ class _BobotSliderState extends State<BobotSlider> {
                         child: CircularProgressIndicator(),
                       );
                     } else {
-                      List<DropdownMenuItem> groupItem = [];
                       group = snapshot.data.documents
                           .map<GroupUser>((doc) =>
                               GroupUser.fromMap(doc.data, doc.documentID))
                           .toList();
-                      
-                        for (int i = 0; i < group.length; i += 1) {
-                          groupItem.add(DropdownMenuItem(
-                            child: Text(group[i].namagroup),
-                            value: "${group[i].groupId}",
-                          ));
-                        }
-                        if (groupItem.isNotEmpty) {
+                        List<DropdownMenuItem> groupItem = [];
+                      for (int i = 0; i < group.length; i += 1) {
+                        groupItem.add(DropdownMenuItem(
+                          child: Text(group[i].namagroup),
+                          value: "${group[i].groupId}",
+                        ));
+                      }
+                      if (groupItem.isNotEmpty) {
                         return Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
@@ -131,6 +130,7 @@ class _BobotSliderState extends State<BobotSlider> {
                     }
                   },
                 ),
+                // Text(selectedGroup),
                 SizedBox(
                   height: 45,
                 ),
@@ -227,29 +227,32 @@ class _BobotSliderState extends State<BobotSlider> {
                   height: 130,
                 ),
                 Center(
-                  child: Container(
-                    width: 120,
-                    child: RaisedButton(
-                      color: Colors.lightBlue,
-                      textColor: Colors.white,
-                      splashColor: Colors.grey,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Text("Submit"),
-                      onPressed: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) {
-                          return HasilRekomendasi(
-                            latitude: widget.latitude,
-                            longitude: widget.longitude,
-                            valueHarga: valueharga,
-                            valueJarak: valuejarak,
-                            valueWaktu: valuewaktu,
-                            selectedGroup: selectedGroup,
-                            userId: widget.currentUserId,
-                          );
-                        }));
-                      },
+                  child: Visibility(
+                    visible: true,
+                    child: Container(
+                      width: 120,
+                      child: RaisedButton(
+                        color: Colors.lightBlue,
+                        textColor: Colors.white,
+                        splashColor: Colors.grey,
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8)),
+                        child: Text("Submit"),
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return HasilRekomendasi(
+                              latitude: widget.latitude,
+                              longitude: widget.longitude,
+                              valueHarga: valueharga,
+                              valueJarak: valuejarak,
+                              valueWaktu: valuewaktu,
+                              selectedGroup: selectedGroup,
+                              userId: widget.currentUserId,
+                            );
+                          }));
+                        },
+                      ),
                     ),
                   ),
                 )

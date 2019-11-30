@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Places {
    final String alamat,
       id,
@@ -58,6 +60,26 @@ class Places {
       jadwal: jadwalList,
     );
    
+  }
+  factory Places.fromJson(DocumentSnapshot data){
+    data = data ?? {};
+    var jadwalfromMap = data['jadwal'];
+    List<String> jadwalList = jadwalfromMap.cast<String>();
+    return Places(
+      id: data.documentID,
+      alamat: data['alamat'],
+      deskripsi: data['deskripsi'],
+      gambar: data['gambar'],
+      gambarlogo: data['gambarlogo'],
+      harga: data['harga'],
+      instagram: data['instagram'],
+      jenisBeladiri: data['jenis_beladiri'],
+      jumlahWaktuLatihan: data['jumlah_waktu_latihan'],
+      latitude: data['latitude'],
+      longitude: data['longitude'],
+      namaTempat: data['nama_tempat'],
+      jadwal: jadwalList,
+    );
   }
   // Places.fromMap(Map snapshot) :
   //   jadwal = snapshot['jadwal'],
