@@ -9,7 +9,7 @@ class UsersModel {
   factory UsersModel.fromDoc(DocumentSnapshot data){
     data = data ?? {};
     return UsersModel(
-      email: data['email'],
+      email: data["email"],
       name: data['name'],
       userId: data.documentID,
     );

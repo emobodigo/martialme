@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:martialme/model/places.dart';
@@ -86,7 +87,9 @@ class InformasiTempat extends StatelessWidget {
                             builder: (context,
                                 AsyncSnapshot<QuerySnapshot> snapshot) {
                               if (!snapshot.hasData) {
-                                return Text("Loading");
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
                               } else {
                                 places = snapshot.data.documents
                                     .map((doc) => Places.fromMap(
@@ -115,7 +118,8 @@ class InformasiTempat extends StatelessWidget {
 class ListPlaceWidget extends StatelessWidget {
   final Places placesDetail;
 
-  const ListPlaceWidget({Key key, @required this.placesDetail}) : super(key: key);
+  const ListPlaceWidget({Key key, @required this.placesDetail})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -136,14 +140,20 @@ class ListPlaceWidget extends StatelessWidget {
                   Hero(
                     tag: placesDetail.id,
                     child: Container(
-                      height:  75.0,
+                      height: 75.0,
                       width: 75.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage('${placesDetail.gambarlogo}')
-                        )
+                      child: CachedNetworkImage(
+                        imageUrl: '${placesDetail.gambarlogo}',
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.cover, image: imageProvider),
+                          ),
+                        ),
+                        placeholder: (context, url) =>
+                            Center(child: CircularProgressIndicator()),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                     ),
                   ),

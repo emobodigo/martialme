@@ -1,8 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:martialme/model/groupuser.dart';
+import 'package:martialme/pages/add_group.dart';
 import 'package:martialme/pages/hasilRekomendasi.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:martialme/utils/constant.dart';
@@ -23,7 +23,7 @@ class BobotSlider extends StatefulWidget {
 
 class _BobotSliderState extends State<BobotSlider> {
   List<GroupUser> group;
-  var selectedGroup;
+  String selectedGroup;
   double valueharga = 0.0;
   double valuejarak = 0.0;
   double valuewaktu = 0.0;
@@ -72,36 +72,67 @@ class _BobotSliderState extends State<BobotSlider> {
                           .map<GroupUser>((doc) =>
                               GroupUser.fromMap(doc.data, doc.documentID))
                           .toList();
-                        groupItem.add(DropdownMenuItem(child: Text("Tanpa Group"), value: 0,));
-                      for(int i=0; i<group.length; i+=1){
-                       groupItem.add(DropdownMenuItem(
-                         child: Text(group[i].namagroup),
-                         value: "${group[i].groupId}",
-                       ));
+                      
+                        for (int i = 0; i < group.length; i += 1) {
+                          groupItem.add(DropdownMenuItem(
+                            child: Text(group[i].namagroup),
+                            value: "${group[i].groupId}",
+                          ));
+                        }
+                        if (groupItem.isNotEmpty) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Icon(
+                              FontAwesomeIcons.objectGroup,
+                              size: 20.0,
+                              color: Colors.lightBlue,
+                            ),
+                            SizedBox(
+                              width: 50.0,
+                            ),
+                            DropdownButton(
+                              items: groupItem,
+                              onChanged: (groupItemValue) {
+                                setState(() {
+                                  selectedGroup = groupItemValue;
+                                });
+                              },
+                              value: selectedGroup,
+                              hint: Text('Pilih Group'),
+                            )
+                          ],
+                        );
+                      } else {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            InkWell(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 15.0),
+                                child: Text(
+                                  "Belum ada Group, Klik disini untuk buat group",
+                                  style: TextStyle(
+                                      fontFamily: 'Montserrat',
+                                      fontStyle: FontStyle.italic),
+                                ),
+                              ),
+                              onTap: () {
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return AddGroup(
+                                      currentUserId: widget.currentUserId);
+                                }));
+                              },
+                            )
+                          ],
+                        );
                       }
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(FontAwesomeIcons.objectGroup, size: 20.0, color: Colors.lightBlue,),
-                          SizedBox(width: 50.0,),
-                          DropdownButton(
-                            items: groupItem,
-                            onChanged: (groupItemValue){
-                              setState(() {
-                                selectedGroup = groupItemValue;
-                              });
-                            },
-                            value: selectedGroup,
-                           
-                            hint: Text('Pilih Group'),
-                          )
-                        ],
-                      );
                     }
                   },
                 ),
                 SizedBox(
-                  height: 60,
+                  height: 45,
                 ),
                 NamaBobot(
                   text: "Harga",
@@ -215,6 +246,7 @@ class _BobotSliderState extends State<BobotSlider> {
                             valueJarak: valuejarak,
                             valueWaktu: valuewaktu,
                             selectedGroup: selectedGroup,
+                            userId: widget.currentUserId,
                           );
                         }));
                       },

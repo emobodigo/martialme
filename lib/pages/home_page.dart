@@ -19,8 +19,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = Provider.of<UserProvider>(context);
     final location = Provider.of<UserLocation>(context);
-    final double latitude = location.latitude;
-    final double longitude = location.longitude;
+    final double latitude = location?.latitude;
+    final double longitude = location?.longitude;
     return AnimatedContainer(
       duration: Duration(microseconds: 500),
       //Define color provider

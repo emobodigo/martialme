@@ -54,7 +54,7 @@ class Places {
       latitude: data['latitude'],
       longitude: data['longitude'],
       namaTempat: data['nama_tempat'],
-      // normalisasiHarga: data['normalisasiHarga'],
+      hasilBorda: data['borda'],
       jadwal: jadwalList,
     );
    

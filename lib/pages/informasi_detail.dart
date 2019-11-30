@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:martialme/model/places.dart';
@@ -15,7 +16,7 @@ class InformasiDetail extends StatelessWidget {
 
     _launchURL() async {
       var url = '${places.instagram}';
-      if(await canLaunch(url)){
+      if (await canLaunch(url)) {
         await launch(url);
       } else {
         throw 'Could not launch $url';
@@ -52,13 +53,20 @@ class InformasiDetail extends StatelessWidget {
               ),
               Container(
                 height: MediaQuery.of(context).size.height - 370.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40.0),
-                        bottomRight: Radius.circular(40.0)),
-                    image: DecorationImage(
-                        image: NetworkImage('${places.gambar}'),
-                        fit: BoxFit.cover)),
+                child: CachedNetworkImage(
+                  imageUrl: '${places.gambar}',
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(40.0),
+                          bottomRight: Radius.circular(40.0)),
+                      image: DecorationImage(
+                          fit: BoxFit.cover, image: imageProvider),
+                    ),
+                  ),
+                  placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
               ),
               Positioned(
                 top: 340,

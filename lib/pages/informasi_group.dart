@@ -8,12 +8,18 @@ import 'package:martialme/utils/constant.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
 
-class InformasiGroup extends StatelessWidget {
-  List<GroupUser> group;
+class InformasiGroup extends StatefulWidget {
   final String currentUserid;
 
   InformasiGroup({Key key, this.currentUserid}) : super(key: key);
 
+  @override
+  _InformasiGroupState createState() => _InformasiGroupState();
+}
+
+class _InformasiGroupState extends State<InformasiGroup> {
+  List<GroupUser> group;
+  
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
@@ -86,11 +92,11 @@ class InformasiGroup extends StatelessWidget {
                       child: Container(
                         height: MediaQuery.of(context).size.height - 190,
                         child: FutureBuilder(
-                            future: groupUserRef.document(currentUserid).collection('groups').getDocuments(),
+                            future: groupUserRef.document(widget.currentUserid).collection('groups').getDocuments(),
                             builder: (context,
                                 AsyncSnapshot snapshot) {
                               if (!snapshot.hasData) {
-                                return Text("Loading");
+                                return Center(child: CircularProgressIndicator(),);
                               } else {
                                 group = snapshot.data.documents
                                     .map<GroupUser>((doc) => GroupUser.fromMap(
@@ -100,7 +106,7 @@ class InformasiGroup extends StatelessWidget {
                                     itemCount: group.length,
                                     itemBuilder: (buildContext, index) =>
                                         ListPlaceWidget(
-                                            groupDetail: group[index], currentUserId: currentUserid));
+                                            groupDetail: group[index], currentUserId: widget.currentUserid));
                               }
                             }),
                       ),
@@ -117,7 +123,7 @@ class InformasiGroup extends StatelessWidget {
             child: Icon(Icons.add),
             onPressed: (){
               Navigator.push(context, MaterialPageRoute(builder: (context){
-                return AddGroup(currentUserId: currentUserid);
+                return AddGroup(currentUserId: widget.currentUserid);
               }));
             },
           ),
@@ -126,13 +132,20 @@ class InformasiGroup extends StatelessWidget {
       ),
     );
   }
+ 
 }
 
-class ListPlaceWidget extends StatelessWidget {
+
+class ListPlaceWidget extends StatefulWidget  {
   final GroupUser groupDetail;
   final String currentUserId;
   const ListPlaceWidget({Key key, @required this.groupDetail, this.currentUserId}) : super(key: key);
 
+  @override
+  _ListPlaceWidgetState createState() => _ListPlaceWidgetState();
+}
+
+class _ListPlaceWidgetState extends State<ListPlaceWidget> {
   @override
   Widget build(BuildContext context) {
     final groupProvider = Provider.of<GroupProvider>(context);
@@ -141,7 +154,7 @@ class ListPlaceWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
            Navigator.push(context, MaterialPageRoute(builder: (context) {
-             return GroupDetail(groupDetail: groupDetail, currentUserId: currentUserId);
+             return GroupDetail(groupDetail: widget.groupDetail, currentUserId: widget.currentUserId);
            }));
         },
         child: Row(
@@ -151,7 +164,7 @@ class ListPlaceWidget extends StatelessWidget {
               child: Row(
                 children: <Widget>[
                   Hero(
-                    tag: groupDetail.id,
+                    tag: widget.groupDetail.id,
                     child: Container(
                       height:  75.0,
                       width: 75.0,
@@ -173,7 +186,7 @@ class ListPlaceWidget extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 15.0),
                         child: Text(
-                          '${groupDetail.namagroup}',
+                          '${widget.groupDetail.namagroup}',
                           style: TextStyle(
                               fontFamily: 'Montserrat',
                               fontSize: 16.0,
@@ -189,7 +202,10 @@ class ListPlaceWidget extends StatelessWidget {
               icon: Icon(Icons.delete),
               color: Colors.black,
               onPressed: () async{
-                await groupProvider.removeGroup(groupDetail.id, currentUserId);
+                await groupProvider.removeGroup(widget.groupDetail.id, widget.currentUserId);
+                setState(() {
+                  
+                });
               },
             )
           ],

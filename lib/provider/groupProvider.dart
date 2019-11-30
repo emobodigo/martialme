@@ -47,6 +47,9 @@ class GroupProvider with ChangeNotifier{
     var ids = new DateTime.now().millisecondsSinceEpoch.toString();
     var addUserGroup = _firestore.collection('groupuser').document(id).collection('groups').document(ids);
     var addgroup = _firestore.collection('group').document(ids).collection('usersg').document(id);
+    var cond1 = _firestore.collection('group').document(ids);
+    Map<String, dynamic> values = {'dummy':'dummy'};
+    batch.setData(cond1, values);
     batch.setData(addUserGroup, data.toJson(ids));
     batch.setData(addgroup, data2.toJson());
     await batch.commit();
@@ -69,6 +72,7 @@ class GroupProvider with ChangeNotifier{
     batch.delete(removegroup);
     batch.delete(removeGroupUser);
     await batch.commit();
+    notifyListeners();
     return;
   }
 
@@ -97,7 +101,13 @@ class GroupProvider with ChangeNotifier{
     var batch = _firestore.batch();
     var cond1 = _firestore.collection('group').document(groupId).collection('usersg').document(id);
     var cond2 = _firestore.collection('groupuser').document(id).collection('groups').document(groupId);
-    batch.setData(cond1, data.toJson(groupId));
-    batch.setData(cond2, data2.toJson());
+
+    var cond4 = _firestore.collection('groupuser').document(id);
+    Map<String, dynamic> values = {"dummy":'dummy'};
+    batch.setData(cond1, data2.toJson());
+
+    batch.setData(cond2, data.toJson(groupId));
+    batch.setData(cond4, values);
+    await batch.commit();
   }
 }

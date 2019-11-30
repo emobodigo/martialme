@@ -16,6 +16,13 @@ class DatabasePlaces {
     return ref.getDocuments();
   }
 
+  Future<QuerySnapshot> getDataRinciSubCollection(String groupId, String idCobas){
+    return _db.collection('group').document(groupId).collection('rekom')
+        .document(idCobas)
+        .collection('hasil')
+        .getDocuments();
+  }
+
   Stream<QuerySnapshot> streamDataCollection() {
     return ref.snapshots();
   }
