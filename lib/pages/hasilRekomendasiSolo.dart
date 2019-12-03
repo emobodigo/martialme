@@ -1,24 +1,23 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:martialme/pages/hasilRekomendasiDetail.dart';
 import 'package:martialme/provider/placesProvider.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
 
-class HasilRekomendasi extends StatelessWidget {
+class HasilRekomendasiSolo extends StatelessWidget {
   final double longitude, latitude, valueHarga, valueJarak, valueWaktu;
-  final String selectedGroup;
-  final String userId;
+  final FirebaseUser user;
+  final String currentUserId;
 
-  HasilRekomendasi(
+  HasilRekomendasiSolo(
       {Key key,
       this.longitude,
       this.latitude,
       this.valueHarga,
       this.valueJarak,
-      this.valueWaktu,
-      this.selectedGroup,
-      this.userId})
+      this.valueWaktu, this.user, this.currentUserId})
       : super(key: key);
 
   @override
@@ -91,13 +90,12 @@ class HasilRekomendasi extends StatelessWidget {
                     child: Container(
                       height: MediaQuery.of(context).size.height - 190,
                       child: FutureBuilder(
-                        future: placesProvider.fetchPlaces(
+                        future: placesProvider.doTopsis(
                           valueHarga,
                           valueJarak,
                           valueWaktu,
                           latitude,
                           longitude,
-                          selectedGroup,
                         ),
                         builder: (context, AsyncSnapshot snapshot) {
                           //print(snapshot.data);
@@ -121,6 +119,8 @@ class HasilRekomendasi extends StatelessWidget {
                                               placesProvider.places[index].id,
                                           latitude: latitude,
                                           longitude: longitude,
+                                          user: user,
+                                          currentUserId: currentUserId,
                                         );
                                       }));
                                     },

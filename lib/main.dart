@@ -71,7 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
                     ],
                   );
                 case Status.Authenticated:
-                return HomePage(user: user.user, currentUserid: user.user.uid);
+                return HomePage(users: user.user, currentUserid: user.user.uid);
+                default: return Stack(children: <Widget>[
+                  Background(),
+                  LoginPage(),
+                ],);
               }
             },
            

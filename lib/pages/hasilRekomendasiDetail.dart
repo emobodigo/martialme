@@ -1,22 +1,26 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:martialme/model/places.dart';
+import 'package:martialme/pages/home_page.dart';
+import 'package:martialme/provider/userProvider.dart';
 import 'package:martialme/utils/constant.dart';
-import 'package:martialme/utils/info.dart';
+import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HasilRekomendasiDetail extends StatelessWidget {
-  final String places;
-  double latitude, longitude;
+  final String places, currentUserId;
+  final double latitude, longitude;
+  final FirebaseUser user;
 
-  HasilRekomendasiDetail({Key key, this.places, this.latitude, this.longitude})
+  HasilRekomendasiDetail({Key key, this.places, this.latitude, this.longitude, this.user, this.currentUserId})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     String origin = "$latitude,$longitude";
-    
+    final users = Provider.of<UserProvider>(context);
     return Scaffold(
       body: FutureBuilder(
           future: placesRef.document(places).get(),
@@ -277,6 +281,7 @@ class HasilRekomendasiDetail extends StatelessWidget {
                               ),
                             ],
                           ),
+                          
                         ],
                       ),
                     ),

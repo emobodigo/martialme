@@ -209,7 +209,7 @@ class _SignUpState extends State<SignUp> {
                     }
                     print(user.status);
                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
-                     return HomePage(user: user.user, currentUserid: user.user.uid,);
+                     return HomePage(users: user.user, currentUserid: user.user.uid,);
                    }));
                   }
                 },

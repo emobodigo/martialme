@@ -2,18 +2,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:martialme/model/userLocation.dart';
-import 'package:martialme/pages/bobot_slider.dart';
 import 'package:martialme/pages/informasi_group.dart';
 import 'package:martialme/pages/informasi_tempat.dart';
+import 'package:martialme/pages/launchRekomendasi.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  final FirebaseUser user;
+  final FirebaseUser users;
   
   final String currentUserid;
-  const HomePage({Key key, this.user, this.currentUserid}) : super(key: key);
+  const HomePage({Key key, this.users, this.currentUserid}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 50,
                   ),
-                  buttonGo(context, latitude, longitude),
+                  buttonGo(context, user.user, latitude, longitude),
                   SizedBox(
                     height: 30,
                   ),
@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
         ),
       ];
 
-  Widget buttonGo(context, latitude, longitude)  =>  Wrap(
+  Widget buttonGo(context, user, latitude, longitude)  =>  Wrap(
         alignment: WrapAlignment.center,
         spacing: 20.0,
         runSpacing: 20.0,
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
             color: Colors.green,
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) {
-                return BobotSlider(latitude: latitude, longitude: longitude, currentUserId: currentUserid,);
+                return LaunchRekomendasi(latitude: latitude, longitude: longitude, currentUserId: currentUserid, user: user ,);
               }));
             },
           ),
