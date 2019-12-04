@@ -7,6 +7,8 @@ import 'package:martialme/provider/groupProvider.dart';
 import 'package:martialme/utils/constant.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
+import 'package:giffy_dialog/giffy_dialog.dart';
+
 
 class InformasiGroup extends StatefulWidget {
   final String currentUserid;
@@ -36,13 +38,6 @@ class _InformasiGroupState extends State<InformasiGroup> {
               style: TextStyle(color: Colors.white),
             ),
             centerTitle: true,
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(Icons.filter_list),
-                color: Colors.white,
-                onPressed: () {},
-              )
-            ],
           ),
           body: ListView(
             children: <Widget>[
@@ -106,7 +101,7 @@ class _InformasiGroupState extends State<InformasiGroup> {
                                     itemCount: group.length,
                                     itemBuilder: (buildContext, index) =>
                                         ListPlaceWidget(
-                                            groupDetail: group[index], currentUserId: widget.currentUserid));
+                                            groupDetail: group[index], currentUserId: widget.currentUserid, parent: this,));
                               }
                             }),
                       ),
@@ -139,7 +134,8 @@ class _InformasiGroupState extends State<InformasiGroup> {
 class ListPlaceWidget extends StatefulWidget  {
   final GroupUser groupDetail;
   final String currentUserId;
-  const ListPlaceWidget({Key key, @required this.groupDetail, this.currentUserId}) : super(key: key);
+  final _InformasiGroupState parent;
+  const ListPlaceWidget({Key key, @required this.groupDetail, this.currentUserId, this.parent}) : super(key: key);
 
   @override
   _ListPlaceWidgetState createState() => _ListPlaceWidgetState();
@@ -201,11 +197,21 @@ class _ListPlaceWidgetState extends State<ListPlaceWidget> {
             IconButton(
               icon: Icon(Icons.delete),
               color: Colors.black,
-              onPressed: () async{
-                await groupProvider.removeGroup(widget.groupDetail.id, widget.currentUserId);
-                setState(() {
-                  
-                });
+              onPressed: () {
+                showDialog(context: context, builder: (_) => AssetGiffyDialog(
+                  image: Image.asset('assets/images/question.gif'),
+                  title: Text('Hapus Group?', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w600)),
+                  description: Text('Apakah anda yakin menghapus Group?, menghapus group akan menghapus seluruh anggota di dalamnya', textAlign: TextAlign.center,),
+                  onOkButtonPressed: () async{
+                    await groupProvider.removeGroup(widget.groupDetail.id, widget.currentUserId);
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context){
+                      return InformasiGroup(currentUserid: widget.currentUserId,);
+                    }));
+                  },
+                  onCancelButtonPressed: (){
+                    Navigator.pop(context);
+                  },
+                ));
               },
             )
           ],

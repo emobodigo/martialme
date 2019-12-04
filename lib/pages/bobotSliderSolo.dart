@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:martialme/model/groupuser.dart';
 import 'package:martialme/pages/hasilRekomendasiSolo.dart';
+import 'package:martialme/widget/fadeAnimation.dart';
 
 class BobotSliderSolo extends StatefulWidget {
   final double latitude, longitude;
@@ -47,18 +48,22 @@ class _BobotSliderState extends State<BobotSliderSolo> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: Container(
-                        child: Icon(
-                          Icons.arrow_back_ios,
-                          color: Colors.black,
-                        ),
-                      ),
+                      child: FadeAnimation(
+                          1,
+                          Container(
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                            ),
+                          )),
                     ),
-                    Text("Solo Rekomendasi",
-                        style: TextStyle(
-                            fontStyle: FontStyle.italic,
-                            fontFamily: "Montserrat",
-                            fontWeight: FontWeight.bold))
+                    FadeAnimation(
+                        1,
+                        Text("Solo Rekomendasi",
+                            style: TextStyle(
+                                fontStyle: FontStyle.italic,
+                                fontFamily: "Montserrat",
+                                fontWeight: FontWeight.bold)))
                   ])),
           Positioned(
             height: MediaQuery.of(context).size.height,
@@ -68,127 +73,143 @@ class _BobotSliderState extends State<BobotSliderSolo> {
               padding: const EdgeInsets.all(15.0),
               child: Column(
                 children: <Widget>[
-                  NamaBobot(
-                    text: "Harga",
-                  ),
-                  Container(
-                    height: 53,
-                    padding: EdgeInsets.only(top: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.3),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
-                        )),
-                    child: Slider(
-                      value: valueharga,
-                      min: 0.0,
-                      max: 1.0,
-                      divisions: 10,
-                      label: '${valueharga.toDouble()}',
-                      onChanged: (double changedValue) {
-                        setState(() {
-                          valueharga = changedValue;
-                        });
-                      },
-                    ),
-                  ),
+                  FadeAnimation(
+                      1.2,
+                      NamaBobot(
+                        text: "Harga",
+                      )),
+                  FadeAnimation(
+                      1.2,
+                      Container(
+                        height: 53,
+                        padding: EdgeInsets.only(top: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.3),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            )),
+                        child: Slider(
+                          value: valueharga,
+                          min: 0.0,
+                          max: 1.0,
+                          divisions: 10,
+                          label: '${valueharga.toDouble()}',
+                          onChanged: (double changedValue) {
+                            setState(() {
+                              valueharga = changedValue;
+                            });
+                          },
+                        ),
+                      )),
                   Divider(),
-                  NamaBobot(
-                    text: "Jarak",
-                  ),
-                  Container(
-                    height: 53,
-                    padding: EdgeInsets.only(top: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.3),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
-                        )),
-                    child: Slider(
-                      value: valuejarak,
-                      min: 0.0,
-                      max: 1.0,
-                      divisions: 10,
-                      label: '${valuejarak.toDouble()}',
-                      onChanged: (double changedValue) {
-                        setState(() {
-                          valuejarak = changedValue;
-                        });
-                      },
-                    ),
-                  ),
+                  FadeAnimation(
+                      1.2,
+                      NamaBobot(
+                        text: "Jarak",
+                      )),
+                  FadeAnimation(
+                      1.2,
+                      Container(
+                        height: 53,
+                        padding: EdgeInsets.only(top: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.3),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            )),
+                        child: Slider(
+                          value: valuejarak,
+                          min: 0.0,
+                          max: 1.0,
+                          divisions: 10,
+                          label: '${valuejarak.toDouble()}',
+                          onChanged: (double changedValue) {
+                            setState(() {
+                              valuejarak = changedValue;
+                            });
+                          },
+                        ),
+                      )),
                   Divider(),
-                  NamaBobot(
-                    text: "Jumlah Waktu Latihan",
-                  ),
-                  Container(
-                    height: 53,
-                    padding: EdgeInsets.only(top: 5),
-                    decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.3),
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(8),
-                          bottomRight: Radius.circular(8),
-                        )),
-                    child: Slider(
-                      value: valuewaktu,
-                      min: 0.0,
-                      max: 1.0,
-                      divisions: 10,
-                      label: '${valuewaktu.toDouble()}',
-                      onChanged: (double changedValue) {
-                        setState(() {
-                          valuewaktu = changedValue;
-                        });
-                      },
-                    ),
-                  ),
+                  FadeAnimation(
+                      1.2,
+                      NamaBobot(
+                        text: "Jumlah Waktu Latihan",
+                      )),
+                  FadeAnimation(
+                      1.2,
+                      Container(
+                        height: 53,
+                        padding: EdgeInsets.only(top: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.3),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(8),
+                              bottomRight: Radius.circular(8),
+                            )),
+                        child: Slider(
+                          value: valuewaktu,
+                          min: 0.0,
+                          max: 1.0,
+                          divisions: 10,
+                          label: '${valuewaktu.toDouble()}',
+                          onChanged: (double changedValue) {
+                            setState(() {
+                              valuewaktu = changedValue;
+                            });
+                          },
+                        ),
+                      )),
                   Divider(),
                   Divider(),
-                  Container(
-                    height: 130,
-                    padding: EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
-                        color: Colors.blueGrey.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Text(
-                      "Tentukan bobot masing-masing kriteria sesuai dengan preferensi anda, bobot merepresentasikan prioritas anda terhadap kriteria. Misal: Anda memprioritaskan tempat latihan yang dekat dengan posisi anda tanpa peduli harga yang ditawarkan, maka berikan bobot jarak lebih tinggi daripada bobot harga",
-                      style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                      ),
-                      textAlign: TextAlign.justify,
-                    ),
-                  ),
+                  FadeAnimation(
+                      1.4,
+                      Container(
+                        height: 130,
+                        padding: EdgeInsets.all(12.0),
+                        decoration: BoxDecoration(
+                            color: Colors.blueGrey.withOpacity(0.4),
+                            borderRadius: BorderRadius.circular(12)),
+                        child: Text(
+                          "Tentukan bobot masing-masing kriteria sesuai dengan preferensi anda, bobot merepresentasikan prioritas anda terhadap kriteria. Misal: Anda memprioritaskan tempat latihan yang dekat dengan posisi anda tanpa peduli harga yang ditawarkan, maka berikan bobot jarak lebih tinggi daripada bobot harga",
+                          style: TextStyle(
+                            fontStyle: FontStyle.italic,
+                          ),
+                          textAlign: TextAlign.justify,
+                        ),
+                      )),
                   SizedBox(
                     height: 70,
                   ),
                   Center(
-                    child: Container(
-                      width: 120,
-                      child: RaisedButton(
-                        color: Colors.indigoAccent.withOpacity(0.9),
-                        textColor: Colors.white,
-                        splashColor: Colors.grey,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8)),
-                        child: Text("Submit"),
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) {
-                            return HasilRekomendasiSolo(
-                              latitude: widget.latitude,
-                              longitude: widget.longitude,
-                              valueHarga: valueharga,
-                              valueJarak: valuejarak,
-                              valueWaktu: valuewaktu,
-                              user: widget.user,
-                              currentUserId: widget.currentUserId,
-                            );
-                          }));
-                        },
-                      ),
+                    child: FadeAnimation(
+                      1.6,
+                      Container(
+                          width: 120,
+                          child: RaisedButton(
+                            color: Colors.indigoAccent.withOpacity(0.9),
+                            textColor: Colors.white,
+                            splashColor: Colors.grey,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8)),
+                            child: Text("Submit"),
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return HasilRekomendasiSolo(
+                                  latitude: widget.latitude,
+                                  longitude: widget.longitude,
+                                  valueHarga: valueharga,
+                                  valueJarak: valuejarak,
+                                  valueWaktu: valuewaktu,
+                                  user: widget.user,
+                                  currentUserId: widget.currentUserId,
+                                );
+                              }));
+                            },
+                          )),
                     ),
                   )
                 ],

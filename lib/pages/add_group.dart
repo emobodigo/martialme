@@ -99,19 +99,29 @@ class _AddGroupState extends State<AddGroup> {
                           key: _formKey,
                           child: Column(
                             children: <Widget>[
-                              TextFormField(
-                                controller: _namaGroup,
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    hintText: 'Nama Group',
-                                    fillColor: Colors.grey[300],
-                                    filled: true),
-                                validator: (value) {
-                                  if (value.isEmpty) {
-                                    return 'Masukkan nama group';
-                                  }
-                                },
-                                onSaved: (value) => namaGroup = value,
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(25),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(25),
+                                                                  child: TextFormField(
+                                    controller: _namaGroup,
+                                    decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        hintText: 'Nama Group',
+                                        fillColor: Colors.grey[300],
+                                        filled: true),
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return 'Masukkan nama group';
+                                      }
+                                      return null;
+                                    },
+                                    onSaved: (value) => namaGroup = value,
+                                  ),
+                                ),
                               ),
                               RaisedButton(
                                 splashColor: Colors.red,

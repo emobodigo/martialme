@@ -7,6 +7,7 @@ import 'package:martialme/pages/informasi_tempat.dart';
 import 'package:martialme/pages/launchRekomendasi.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:martialme/utils/info.dart';
+import 'package:martialme/widget/fadeAnimation.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
@@ -40,6 +41,9 @@ class HomePage extends StatelessWidget {
                 ),
                 onPressed: () {
                   user.signOut();
+                  // Navigator.pushReplacement(context, MaterialPageRoute(builder: (_){
+                  //   return LoginTest();
+                  // }));
                 },
               ),
             ],
@@ -50,7 +54,7 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new ImageCard(),
+                  ImageCard(),
                   SizedBox(
                     height: 20,
                   ),
@@ -83,25 +87,25 @@ class HomePage extends StatelessWidget {
   }
 
   List<Widget> text(context) =>  [
-        Text(
+        FadeAnimation(1.2,Text(
           Info.welcomeText,
           style: Theme.of(context)
               .textTheme
               .headline
               .apply(fontFamily: 'Montserrat'),
           textAlign: TextAlign.center,
-        ),
+        )),
         SizedBox(
           height: 20,
         ),
-        Text(
+        FadeAnimation(1.3,Text(
           Info.headlineText,
           style: Theme.of(context)
               .textTheme
               .caption
               .apply(fontFamily: 'Montserrat'),
           textAlign: TextAlign.center,
-        ),
+        )),
       ];
 
   Widget buttonGo(context, user, latitude, longitude)  =>  Wrap(
@@ -109,7 +113,7 @@ class HomePage extends StatelessWidget {
         spacing: 20.0,
         runSpacing: 20.0,
         children: <Widget>[
-          new CardButton(
+          CardButton(
             iconData: FontAwesomeIcons.diagnoses,
             title: Info.rekomendasi,
             color: Colors.green,
@@ -192,19 +196,19 @@ class ImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return FadeAnimation(1,Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.3,
       padding: EdgeInsets.all(20),
       child: Image.asset(
         //provider
-        'assets/images/banner_light.png', fit: BoxFit.cover,
+        'assets/images/karate.png', fit: BoxFit.cover,
         filterQuality: FilterQuality.high,
       ),
       decoration: BoxDecoration(
           color: //provider
               Colors.white,
           borderRadius: BorderRadius.circular(20)),
-    );
+    ));
   }
 }

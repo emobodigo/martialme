@@ -3,14 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:martialme/locator.dart';
 import 'package:martialme/model/userLocation.dart';
 import 'package:martialme/pages/home_page.dart';
-import 'package:martialme/pages/login.dart';
+import 'package:martialme/pages/loginTest.dart';
 import 'package:martialme/provider/LocationService.dart';
 import 'package:martialme/provider/groupProvider.dart';
 import 'package:martialme/provider/placesProvider.dart';
 import 'package:martialme/provider/userProvider.dart';
 import 'package:provider/provider.dart';
-
-import 'widget/login_widget/background.dart';
 
 void main() {
   setupLocator();
@@ -64,18 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 case Status.Unitialized:
                 case Status.Unauthenticated:
                 case Status.Authenticating:
-                  return Stack(
-                    children: <Widget>[
-                      Background(),
-                      LoginPage(),
-                    ],
-                  );
+                  return LoginTest();
                 case Status.Authenticated:
                 return HomePage(users: user.user, currentUserid: user.user.uid);
-                default: return Stack(children: <Widget>[
-                  Background(),
-                  LoginPage(),
-                ],);
+                default: return LoginTest();
               }
             },
            

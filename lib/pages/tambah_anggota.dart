@@ -96,6 +96,7 @@ class _TambahAnggotaState extends State<TambahAnggota> {
               Group(userId: user.userId, username: user.name),
               user.userId,
               widget.group.groupId);
+          Navigator.pop(context);
         },
       ),
       visible: false,

@@ -7,7 +7,12 @@ import 'package:martialme/provider/placesProvider.dart';
 import 'package:martialme/utils/info.dart';
 import 'package:provider/provider.dart';
 
-class InformasiTempat extends StatelessWidget {
+class InformasiTempat extends StatefulWidget {
+  @override
+  _InformasiTempatState createState() => _InformasiTempatState();
+}
+
+class _InformasiTempatState extends State<InformasiTempat> {
   List<Places> places;
 
   @override
